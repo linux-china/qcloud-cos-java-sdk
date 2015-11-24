@@ -47,7 +47,7 @@ public class CosCloudTest {
 
     @Test
     public void testUploadFile() throws Exception {
-        CosResponse result = bucketOperation.uploadFile("/2.jpg", new File("/Users/linux_china/1.jpg"));
+        CosResponse result = bucketOperation.uploadFile("/2.jpg", new File(System.getProperty("user.home") + "/1.jpg"));
         System.out.println(result.isSuccess());
     }
 
