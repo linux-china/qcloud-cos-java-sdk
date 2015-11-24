@@ -19,6 +19,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -51,7 +52,7 @@ public class CosRequest {
         this.httpClient = createHttpClient(timeout);
     }
 
-    public CosResponse uploadByteArray(String contentType, byte[] content) throws Exception {
+    public CosResponse uploadByteArray(String contentType, byte[] content) throws IOException {
         HttpPost httpPost = createPostMethod();
         MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
         if (data != null) {
@@ -66,7 +67,7 @@ public class CosRequest {
         return convertToCosResponse(httpClient.execute(httpPost));
     }
 
-    public CosResponse uploadLocalFile(File localFile) throws Exception {
+    public CosResponse uploadLocalFile(File localFile) throws IOException {
         HttpPost httpPost = createPostMethod();
         MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
         if (!data.isEmpty()) {
@@ -80,7 +81,7 @@ public class CosRequest {
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public CosResponse uploadSliceFile(File localFile, long offset, int sliceSize) throws Exception {
+    public CosResponse uploadSliceFile(File localFile, long offset, int sliceSize) throws IOException {
         HttpPost httpPost = createPostMethod();
         MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
         if (!data.isEmpty()) {
@@ -100,7 +101,7 @@ public class CosRequest {
         return convertToCosResponse(httpClient.execute(httpPost));
     }
 
-    public CosResponse post() throws Exception {
+    public CosResponse post() throws IOException {
         HttpPost httpPost = createPostMethod();
         if (headers.containsKey("Content-Type") && headers.get("Content-Type").equals("application/json")) {
             String json = objectMapper.writeValueAsString(data);
@@ -118,7 +119,7 @@ public class CosRequest {
         return convertToCosResponse(httpClient.execute(httpPost));
     }
 
-    public CosResponse get() throws Exception {
+    public CosResponse get() throws IOException {
         String paramStr = "";
         for (String key : data.keySet()) {
             if (!paramStr.isEmpty()) {

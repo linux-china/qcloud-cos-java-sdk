@@ -3,6 +3,7 @@ package com.qcloud.cos.api;
 import com.qcloud.cos.common.CosResponse;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -20,7 +21,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse createFolder(String remotePath) throws Exception;
+    public CosResponse createFolder(String remotePath) throws IOException;
 
     /**
      * 更新文件夹信息
@@ -30,7 +31,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse updateFolderAttribute(String remotePath, String bizAttribute) throws Exception;
+    public CosResponse updateFolderAttribute(String remotePath, String bizAttribute) throws IOException;
 
     /**
      * 删除文件夹
@@ -39,7 +40,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse deleteFolder(String remotePath) throws Exception;
+    public CosResponse deleteFolder(String remotePath) throws IOException;
 
 
     /**
@@ -53,7 +54,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse getFolderList(String remotePath, int num, String context, int order, FolderPattern pattern) throws Exception;
+    public CosResponse getFolderList(String remotePath, int num, String context, int order, FolderPattern pattern) throws IOException;
 
     /**
      * 目录列表,前缀搜索
@@ -67,7 +68,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse getFolderList(String remotePath, String prefix, int num, String context, int order, FolderPattern pattern) throws Exception;
+    public CosResponse getFolderList(String remotePath, String prefix, int num, String context, int order, FolderPattern pattern) throws IOException;
 
     /**
      * 获取文件夹信息
@@ -76,7 +77,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse getFolderInfo(String remotePath) throws Exception;
+    public CosResponse getFolderInfo(String remotePath) throws IOException;
 
     /**
      * 更新文件信息
@@ -86,7 +87,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse updateFileAttribute(String remotePath, String bizAttribute) throws Exception;
+    public CosResponse updateFileAttribute(String remotePath, String bizAttribute) throws IOException;
 
     /**
      * 删除文件
@@ -95,7 +96,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse deleteFile(String remotePath) throws Exception;
+    public CosResponse deleteFile(String remotePath) throws IOException;
 
     /**
      * 获取文件信息
@@ -104,7 +105,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse getFileInfo(String remotePath) throws Exception;
+    public CosResponse getFileInfo(String remotePath) throws IOException;
 
     /**
      * 单个文件上传
@@ -114,7 +115,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse uploadFile(String remotePath, File localFile) throws Exception;
+    public CosResponse uploadFile(String remotePath, File localFile) throws IOException;
 
     /**
      * 流单个文件上传
@@ -124,7 +125,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse uploadStream(String remotePath, String contentType, InputStream inputStream) throws Exception;
+    public CosResponse uploadStream(String remotePath, String contentType, InputStream inputStream) throws IOException;
 
     /**
      * 分片上传第一步
@@ -135,7 +136,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse sliceUploadFileFirstStep(String remotePath, File localFile, int sliceSize) throws Exception;
+    public CosResponse sliceUploadFileFirstStep(String remotePath, File localFile, int sliceSize) throws IOException;
 
     /**
      * 分片上传后续步骤
@@ -149,7 +150,7 @@ public interface BucketOperation {
      * @throws Exception
      */
     public CosResponse sliceUploadFileFollowStep(String remotePath, File localFile,
-                                                 String sessionId, long offset, int sliceSize) throws Exception;
+                                                 String sessionId, long offset, int sliceSize) throws IOException;
 
     /**
      * 分片上传，默认切片大小为512K
@@ -159,7 +160,7 @@ public interface BucketOperation {
      * @return COS Response
      * @throws Exception
      */
-    public CosResponse sliceUploadFile(String remotePath, File localFile) throws Exception;
+    public CosResponse sliceUploadFile(String remotePath, File localFile) throws IOException;
 
     /**
      * 分片上传

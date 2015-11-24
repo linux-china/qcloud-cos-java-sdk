@@ -10,6 +10,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,10 +55,10 @@ public class BucketOperationImpl implements BucketOperation {
      *
      * @param remotePath   远程文件夹路径
      * @param bizAttribute 更新信息
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse updateFolderAttribute(String remotePath, String bizAttribute) throws Exception {
+    public CosResponse updateFolderAttribute(String remotePath, String bizAttribute) throws IOException {
         remotePath = standardizationRemotePath(remotePath);
         return updateFileAttribute(remotePath, bizAttribute);
     }
@@ -67,10 +68,10 @@ public class BucketOperationImpl implements BucketOperation {
      *
      * @param remotePath   远程文件路径
      * @param bizAttribute 更新信息
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse updateFileAttribute(String remotePath, String bizAttribute) throws Exception {
+    public CosResponse updateFileAttribute(String remotePath, String bizAttribute) throws IOException {
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("op", "update");
         data.put("biz_attr", bizAttribute);
@@ -85,10 +86,10 @@ public class BucketOperationImpl implements BucketOperation {
      * 删除文件夹
      *
      * @param remotePath 远程文件夹路径
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse deleteFolder(String remotePath) throws Exception {
+    public CosResponse deleteFolder(String remotePath) throws IOException {
         remotePath = standardizationRemotePath(remotePath);
         return deleteFile(remotePath);
     }
@@ -97,12 +98,12 @@ public class BucketOperationImpl implements BucketOperation {
      * 删除文件
      *
      * @param remotePath 远程文件路径
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse deleteFile(String remotePath) throws Exception {
+    public CosResponse deleteFile(String remotePath) throws IOException {
         if (remotePath.equals("/")) {
-            throw new Exception("can not delete bucket using aip! go to http://console.qcloud.com/cos to operate bucket");
+            throw new IOException("can not delete bucket using aip! go to http://console.qcloud.com/cos to operate bucket");
         }
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("op", "delete");
@@ -117,10 +118,10 @@ public class BucketOperationImpl implements BucketOperation {
      * 获取文件夹信息
      *
      * @param remotePath 远程文件夹路径
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse getFolderInfo(String remotePath) throws Exception {
+    public CosResponse getFolderInfo(String remotePath) throws IOException {
         remotePath = standardizationRemotePath(remotePath);
         return getFileInfo(remotePath);
     }
@@ -129,10 +130,10 @@ public class BucketOperationImpl implements BucketOperation {
      * 获取文件信息
      *
      * @param remotePath 远程文件路径
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse getFileInfo(String remotePath) throws Exception {
+    public CosResponse getFileInfo(String remotePath) throws IOException {
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("op", "stat");
         long expired = System.currentTimeMillis() / 1000 + 60;
@@ -146,10 +147,10 @@ public class BucketOperationImpl implements BucketOperation {
      * 创建文件夹
      *
      * @param remotePath 远程文件夹路径
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse createFolder(String remotePath) throws Exception {
+    public CosResponse createFolder(String remotePath) throws IOException {
         remotePath = standardizationRemotePath(remotePath);
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("op", "create");
@@ -169,10 +170,10 @@ public class BucketOperationImpl implements BucketOperation {
      * @param context    透传字段，查看第一页，则传空字符串。若需要翻页，需要将前一页返回值中的context透传到参数中。order用于指定翻页顺序。若order填0，则从当前页正序/往下翻页；若order填1，则从当前页倒序/往上翻页。
      * @param order      默认正序(=0), 填1为反序
      * @param pattern    拉取模式:只是文件，只是文件夹，全部
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse getFolderList(String remotePath, int num, String context, int order, FolderPattern pattern) throws Exception {
+    public CosResponse getFolderList(String remotePath, int num, String context, int order, FolderPattern pattern) throws IOException {
         remotePath = standardizationRemotePath(remotePath);
         return getFolderList(remotePath, "", num, context, order, pattern);
     }
@@ -186,10 +187,10 @@ public class BucketOperationImpl implements BucketOperation {
      * @param context    透传字段，查看第一页，则传空字符串。若需要翻页，需要将前一页返回值中的context透传到参数中。order用于指定翻页顺序。若order填0，则从当前页正序/往下翻页；若order填1，则从当前页倒序/往上翻页。
      * @param order      默认正序(=0), 填1为反序
      * @param pattern    拉取模式:只是文件，只是文件夹，全部
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse getFolderList(String remotePath, String prefix, int num, String context, int order, FolderPattern pattern) throws Exception {
+    public CosResponse getFolderList(String remotePath, String prefix, int num, String context, int order, FolderPattern pattern) throws IOException {
         remotePath = standardizationRemotePath(remotePath);
         String url = getPathUrl(remotePath) + Utils.urlEncode(prefix);
         HashMap<String, Object> data = new HashMap<String, Object>();
@@ -211,10 +212,10 @@ public class BucketOperationImpl implements BucketOperation {
      *
      * @param remotePath 远程文件路径
      * @param localFile  本地文件路径
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse uploadFile(String remotePath, File localFile) throws Exception {
+    public CosResponse uploadFile(String remotePath, File localFile) throws IOException {
         String sha1 = Utils.getFileSha1(localFile);
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("op", "upload");
@@ -231,10 +232,10 @@ public class BucketOperationImpl implements BucketOperation {
      *
      * @param remotePath  远程文件路径
      * @param inputStream 文件流
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse uploadStream(String remotePath, String contentType, InputStream inputStream) throws Exception {
+    public CosResponse uploadStream(String remotePath, String contentType, InputStream inputStream) throws IOException {
         HashMap<String, Object> data = new HashMap<String, Object>();
         byte[] content = IOUtils.toByteArray(inputStream);
         String sha1 = DigestUtils.sha1Hex(content);
@@ -253,10 +254,10 @@ public class BucketOperationImpl implements BucketOperation {
      * @param remotePath 远程文件路径
      * @param localFile  本地文件路径
      * @param sliceSize  切片大小（字节）
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse sliceUploadFileFirstStep(String remotePath, File localFile, int sliceSize) throws Exception {
+    public CosResponse sliceUploadFileFirstStep(String remotePath, File localFile, int sliceSize) throws IOException {
         String sha1 = Utils.getFileSha1(localFile);
         System.out.println(sha1);
         long fileSize = localFile.length();
@@ -280,11 +281,11 @@ public class BucketOperationImpl implements BucketOperation {
      * @param sessionId  分片上传会话ID
      * @param offset     文件分片偏移量
      * @param sliceSize  切片大小（字节）
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
     public CosResponse sliceUploadFileFollowStep(String remotePath, File localFile,
-                                                 String sessionId, long offset, int sliceSize) throws Exception {
+                                                 String sessionId, long offset, int sliceSize) throws IOException {
         HashMap<String, Object> data = new HashMap<String, Object>();
         data.put("op", "upload_slice");
         data.put("session", sessionId);
@@ -301,10 +302,10 @@ public class BucketOperationImpl implements BucketOperation {
      *
      * @param remotePath 远程文件路径
      * @param localFile  本地文件路径
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse sliceUploadFile(String remotePath, File localFile) throws Exception {
+    public CosResponse sliceUploadFile(String remotePath, File localFile) throws IOException {
         return sliceUploadFile(remotePath, localFile, 512 * 1024);
     }
 
@@ -314,10 +315,10 @@ public class BucketOperationImpl implements BucketOperation {
      * @param remotePath 远程文件路径
      * @param localFile  本地文件路径
      * @param sliceSize  切片大小（字节）
-     * @return COS result
-     * @throws Exception
+     * @return COS Response
+     * @throws IOException IO Exception
      */
-    public CosResponse sliceUploadFile(String remotePath, File localFile, int sliceSize) throws Exception {
+    public CosResponse sliceUploadFile(String remotePath, File localFile, int sliceSize) throws IOException {
         CosResponse result = sliceUploadFileFirstStep(remotePath, localFile, sliceSize);
         if (!result.isSuccess()) {
             return result;
