@@ -12,8 +12,8 @@ import java.io.File;
  *
  * @author linux_china
  */
-public class CosCloudTest {
-    private static CosCloud cos;
+public class CosClientTest {
+    private static CosClient cos;
     private static BucketOperation bucketOperation;
 
     @BeforeClass
@@ -21,7 +21,7 @@ public class CosCloudTest {
         Integer appId = 123;
         String secretId = "xxxx";
         String secretKey = "yyyy";
-        cos = new CosCloud(appId, secretId, secretKey);
+        cos = new CosClient(appId, secretId, secretKey);
         bucketOperation = cos.getBucketOperation("bucketName");
     }
 
