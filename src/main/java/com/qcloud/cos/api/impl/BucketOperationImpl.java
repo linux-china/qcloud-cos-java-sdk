@@ -1,7 +1,7 @@
 package com.qcloud.cos.api.impl;
 
 import com.qcloud.cos.api.BucketOperation;
-import com.qcloud.cos.api.CosCloud;
+import com.qcloud.cos.api.CosClient;
 import com.qcloud.cos.common.CosRequest;
 import com.qcloud.cos.common.CosResponse;
 import com.qcloud.cos.common.Sign;
@@ -354,7 +354,7 @@ public class BucketOperationImpl implements BucketOperation {
     }
 
     private String getPathUrl(String remotePath) {
-        return CosCloud.COSAPI_CGI_URL + appId + "/" + bucketName + encodeRemotePath(remotePath);
+        return CosClient.COSAPI_CGI_URL + appId + "/" + bucketName + encodeRemotePath(remotePath);
     }
 
 

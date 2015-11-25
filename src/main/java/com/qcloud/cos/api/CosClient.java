@@ -7,7 +7,7 @@ import com.qcloud.cos.api.impl.BucketOperationImpl;
  *
  * @author linux_china
  */
-public class CosCloud {
+public class CosClient {
     /**
      * COS CGI URL
      */
@@ -36,7 +36,7 @@ public class CosCloud {
      * @param secretId  secretID
      * @param secretKey secretKey
      */
-    public CosCloud(int appId, String secretId, String secretKey) {
+    public CosClient(int appId, String secretId, String secretKey) {
         this(appId, secretId, secretKey, 60);
     }
 
@@ -48,7 +48,7 @@ public class CosCloud {
      * @param secretKey secretKey
      * @param timeout   timeout
      */
-    public CosCloud(int appId, String secretId, String secretKey, int timeout) {
+    public CosClient(int appId, String secretId, String secretKey, int timeout) {
         this.appId = appId;
         this.secretId = secretId;
         this.secretKey = secretKey;
