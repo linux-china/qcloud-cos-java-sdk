@@ -1,0 +1,16 @@
+@startuml
+
+class CosClient
+interface BucketOperation
+class CosRequest
+class CosResponse
+
+BucketOperation <|-- BucketOperationImpl
+
+CosClient --> BucketOperation: 创建基于Bucket操作
+
+BucketOperation -left-> CosRequest:发起HTTP请求
+CosRequest -down-> CosResponse: 获取返回结果
+BucketOperation <-- CosResponse: 返回给调用者
+
+@enduml
